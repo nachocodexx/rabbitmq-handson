@@ -20,7 +20,6 @@ from Consumer import Consumer
 
 def program(*args, **kwargs):
     logger = kwargs.get('logger')
-    queueNames = kwargs.get('queueNames')
     '''
         - Description 
         connect to rabbitmq and get a connection. 
@@ -28,31 +27,32 @@ def program(*args, **kwargs):
         connectToRabbitMQ: :  ConnectionParameters -> RabbitMQConnection
     '''
     connection = RabbitMQ.connectToRabbitMQ(logger=logger)
-    queues = list(map(lambda name: Queue(
-        name=name, connection=connection), queueNames))
     # Create exchange, routing keys & queues
+    # Routing key
+    routingKey_00 = RoutingKey(name="my_routing_key")
     # Create a queue with an identifier -> my_queue
-    # queue_00 = Queue(name="numbers_queue", connection=connection)
+    queue_00 = Queue(name="my_queue", connection=connection)
     # Exchange
     exchange_00 = Exchange(
-        name="my_fanout", type="fanout", connection=connection)
+        name="my_exchange", type="direct", connection=connection)
     # Bind queue_00 to a exchange using a routingKey_00
-    # queue_00.bind(exchange=exchange_00)
-    bindings = list(map(lambda q: q.bind(exchange=exchange_00), queues))
+    queue_00.bind(exchange=exchange_00, routing_key=routingKey_00)
     # Create a publisher that emits messages to a queue using routingKey_00 through the exchange_00
-    publisher_00 = Publisher(exchange_name=exchange_00, connection=connection)
+    publisher_00 = Publisher(exchange_name=exchange_00,
+                             routing_key=routingKey_00, connection=connection)
    # Special publisher using the default exchange that emits messages direct to queue name that is equal to the routing_key
+    publisher_01 = Publisher(
+        exchange_name='', routing_key=queue_00.name, connection=connection)
 
+    message_00 = Message(value='Hola', user_id="user_00")
+    # Simple message
+    publisher_00.publish(message='my_message', logger=logger)
     # Advanced message
-    message_00 = Message(
-        value='[1,2,3,4,5,5,10,10,100,100,50,50]', user_id="user_00")
-    # Advanced message
-    publisher_00.publish(message=message_00.toJSON(), logger=logger)
+    publisher_01.publish(message=message_00.toJSON(), logger=logger)
     connection.close()
 
 
 if __name__ == '__main__':
-    logger = Logger.create(name="MANAGER-0", filename="manager.log")
-    logger.info("Manager started successfully 🚀")
-    queueNames = sys.argv[1:]
-    program(logger=logger, queueNames=queueNames)
+    logger = Logger.create(name="PRODUCER-0")
+    logger.info("Producer started successfully 🚀")
+    program(logger=logger)

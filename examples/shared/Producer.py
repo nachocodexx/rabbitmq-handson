@@ -1,4 +1,4 @@
-class Publisher(object):
+class Producer(object):
     def __init__(self, *args, **kwargs):
         self.routingKey = kwargs.get('routing_key', 'test')
         self.exchangeName = kwargs.get('exchange_name', 'testEx')
