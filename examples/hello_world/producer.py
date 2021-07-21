@@ -4,7 +4,7 @@ import time
 from pathlib import Path
 current_path = Path(os.getcwd())
 sys.path.insert(1, str(current_path.parent) + '/shared')
-from Publisher import Publisher
+from Producer import Producer
 from Message import Message
 from Queue import Queue
 from Exchange import Exchange
@@ -38,17 +38,17 @@ def program(*args, **kwargs):
     # Bind queue_00 to a exchange using a routingKey_00
     queue_00.bind(exchange=exchange_00, routing_key=routingKey_00)
     # Create a publisher that emits messages to a queue using routingKey_00 through the exchange_00
-    publisher_00 = Publisher(exchange_name=exchange_00,
-                             routing_key=routingKey_00, connection=connection)
+    producer_00 = Producer(exchange_name=exchange_00,
+                           routing_key=routingKey_00, connection=connection)
    # Special publisher using the default exchange that emits messages direct to queue name that is equal to the routing_key
-    publisher_01 = Publisher(
+    producer_01 = Producer(
         exchange_name='', routing_key=queue_00.name, connection=connection)
 
     message_00 = Message(value='Hola', user_id="user_00")
     # Simple message
-    publisher_00.publish(message='my_message', logger=logger)
+    producer_00.publish(message='my_message', logger=logger)
     # Advanced message
-    publisher_01.publish(message=message_00.toJSON(), logger=logger)
+    producer_01.publish(message=message_00.toJSON(), logger=logger)
     connection.close()
 
 

@@ -3,6 +3,12 @@ import pika
 
 class RabbitMQ(object):
 
+    '''
+        - Description 
+        connect to rabbitmq and get a connection. 
+        - Type declaration
+        connectToRabbitMQ: :  ConnectionParameters -> RabbitMQConnection
+    '''
     @staticmethod
     def connectToRabbitMQ(*args, **kwargs):
         # ConnectionParameters

@@ -4,7 +4,6 @@ import time
 from pathlib import Path
 current_path = Path(os.getcwd())
 sys.path.insert(1, str(current_path.parent) + '/shared')
-from Publisher import Publisher
 from Message import Message
 from Queue import Queue
 from Exchange import Exchange
@@ -28,9 +27,12 @@ def program(*args, **kwargs):
         connectToRabbitMQ: :  ConnectionParameters -> RabbitMQConnection
     '''
     connection = RabbitMQ.connectToRabbitMQ(logger=logger)
-    # Create exchange, routing keys & queues
-    # Create a queue with an identifier -> my_queue
+    # Create exchange & queues
     queue_00 = Queue(name=queueName, connection=connection)
+    exchange_00 = Exchange(
+        name="my_fanout", type="fanout", connection=connection)
+   # routing_key parameters is ignore when the exchange is of type FANOUT
+    queue_00.bind(exchange=exchange_00)
     # Create consumer
     consumer_00 = Consumer(connection=connection)
     consumer_00.consume(queue=queue_00)

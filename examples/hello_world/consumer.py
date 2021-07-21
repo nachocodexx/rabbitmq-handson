@@ -4,7 +4,6 @@ import time
 from pathlib import Path
 current_path = Path(os.getcwd())
 sys.path.insert(1, str(current_path.parent) + '/shared')
-from Publisher import Publisher
 from Message import Message
 from Queue import Queue
 from Exchange import Exchange
@@ -12,20 +11,10 @@ from RoutingKey import RoutingKey
 from RabbitMQ import RabbitMQ
 from Logger import Logger
 from Consumer import Consumer
-"""
- parameters: ConnectionParameters :: (username,password,port,virtual_host,host)
- type      : ConnectionParameters -> RabbitMQConnection
-"""
 
 
 def program(*args, **kwargs):
     logger = kwargs.get('logger')
-    '''
-        - Description 
-        connect to rabbitmq and get a connection. 
-        - Type declaration
-        connectToRabbitMQ: :  ConnectionParameters -> RabbitMQConnection
-    '''
     connection = RabbitMQ.connectToRabbitMQ(logger=logger)
     # Create exchange, routing keys & queues
     # Routing key
