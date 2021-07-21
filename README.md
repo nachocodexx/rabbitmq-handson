@@ -1,6 +1,5 @@
 # RabbitMQ Hands-on
-This github repository is created in order to facilitate the execution of the programs.
-
+This github repository is created in order to facilitate the execution and implementation of the exercises that are proposed in the RabbitMQ Hands-on
 ## Getting started
 ### Example 0: Hello word 
 This example show you how to produce and consume message using Python as a programming language. the example is summarized by the following diagram:  
