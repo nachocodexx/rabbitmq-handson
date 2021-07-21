@@ -1,11 +1,19 @@
 # RabbitMQ Hands-on
 This github repository is created in order to facilitate the execution and implementation of the exercises that are proposed in the RabbitMQ Hands-on
 ## Getting started
+### Prerequisites
+- Python version >=3
+- Pip version >= 20.0.2 
+- Git version >= 2.25.1
+### Installation
+Install all the required dependencies using the following command:
+```pip install -r requirements.txt```
+
 ### Example 0: Hello word 
 This example show you how to produce and consume message using Python as a programming language. the example is summarized by the following diagram:  
 ![ex0](./images/ex0.png)
 
-#### Example 1: Manager / worker pattern
+### Example 1: Manager / worker pattern
 This example tries to show the behavior of very simple processing pattern called manager worker using a FANOUT exchange. 
 
 ![ex1](./images/ex1.png)
@@ -13,7 +21,7 @@ This example tries to show the behavior of very simple processing pattern called
 ```A fanout exchange routes messages to all of the queues that are bound to it and the routing key is ignored.```
 
 
-#### Exercise 0:
+### Exercise 0:
 Modify the Manager / Worker exercise to send a different message to each worker.
 
 ### Final test: Divide & Conquer
