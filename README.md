@@ -8,7 +8,9 @@ This example show you how to produce and consume message using Python as a progr
 
 #### Example 1: Manager / worker pattern
 This example tries to show the behavior of very simple processing pattern called manager worker using a FANOUT exchange. 
-~[ex1](./images/ex1.png)
+
+![ex1](./images/ex1.png)
+
 ```A fanout exchange routes messages to all of the queues that are bound to it and the routing key is ignored.```
 
 
