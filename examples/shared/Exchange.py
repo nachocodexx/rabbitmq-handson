@@ -3,9 +3,9 @@ class Exchange(object):
         self.name = kwargs.get('name')
         self.type = kwargs.get('type')
         self.connection = kwargs.get('connection')
-        self.__create()
+        self.create()
 
-    def __create(self, *args, **kwargs):
+    def create(self, *args, **kwargs):
         channel = self.connection.channel()
         channel.exchange_declare(exchange=self.name, exchange_type=self.type)
         channel.close()
