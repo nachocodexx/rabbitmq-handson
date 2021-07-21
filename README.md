@@ -5,9 +5,18 @@ This github repository is created in order to facilitate the execution and imple
 - Python version >=3
 - Pip version >= 20.0.2 
 - Git version >= 2.25.1
+- Docker version >= 20.10.7
 ### Installation
 Install all the required dependencies using the following command:
 ```pip install -r requirements.txt```
+### RabbitMQ: Message broker(docker)
+Before running the programs, you must run rabbitmq message broker, this is achieved using the following docker commands:
+
+1. We need to create a simple bridge network:
+```docker network create --driver=bridge --subnet=10.0.0.0/23 mynet```
+
+2. Run a docker container using the rabbitmq image
+```docker run --name rabbitmq -d -p 5672:5672 -p 8080:15672 --net mynet rabbitmq:3-management```
 
 ### Example 0: Hello word 
 This example show you how to produce and consume message using Python as a programming language. the example is summarized by the following diagram:  
