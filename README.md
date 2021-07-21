@@ -13,10 +13,12 @@ Install all the required dependencies using the following command:
 Before running the programs, you must run rabbitmq message broker, this is achieved using the following docker commands:
 
 1. We need to create a simple bridge network:
+
 ```docker network create --driver=bridge --subnet=10.0.0.0/23 mynet```
 
 2. Run a docker container using the rabbitmq image
-```docker run --name rabbitmq -d -p 5672:5672 -p 8080:15672 --net mynet rabbitmq:3-management```
+
+```docker run --name rabbit-0 --hostname rabbit-0 -d -p 5672:5672 -p 8080:15672 --net mynet rabbitmq:3-management```
 
 ### Example 0: Hello word 
 This example show you how to produce and consume message using Python as a programming language. the example is summarized by the following diagram:  
