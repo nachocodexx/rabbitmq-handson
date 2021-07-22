@@ -11,8 +11,8 @@ Install all the required dependencies using the following command:
 ```
 pip install -r requirements.txt
 ```
-### RabbitMQ: Message broker(docker)
-Before running the programs, you must run rabbitmq message broker, this is achieved using the following docker commands:
+### RabbitMQ Server 🐋
+Before running the programs, you must run a RabbitMQ server, this is achieved using the following docker commands:
 
 1. We need to create a simple bridge network:
 
