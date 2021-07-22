@@ -4,7 +4,6 @@ import time
 from pathlib import Path
 current_path = Path(os.getcwd())
 sys.path.insert(1, str(current_path.parent) + '/shared')
-from Publisher import Publisher
 from Message import Message
 from Queue import Queue
 from Exchange import Exchange

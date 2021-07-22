@@ -4,7 +4,7 @@ import time
 from pathlib import Path
 current_path = Path(os.getcwd())
 sys.path.insert(1, str(current_path.parent) + '/shared')
-from Publisher import Publisher
+from Producer import Producer
 from Message import Message
 from Queue import Queue
 from Exchange import Exchange
@@ -31,8 +31,6 @@ def program(*args, **kwargs):
     queues = list(map(lambda name: Queue(
         name=name, connection=connection), queueNames))
     # Create exchange, routing keys & queues
-    # Create a queue with an identifier -> my_queue
-    # queue_00 = Queue(name="numbers_queue", connection=connection)
     # Exchange
     exchange_00 = Exchange(
         name="my_fanout", type="fanout", connection=connection)
@@ -40,7 +38,7 @@ def program(*args, **kwargs):
     # queue_00.bind(exchange=exchange_00)
     bindings = list(map(lambda q: q.bind(exchange=exchange_00), queues))
     # Create a publisher that emits messages to a queue using routingKey_00 through the exchange_00
-    publisher_00 = Publisher(exchange_name=exchange_00, connection=connection)
+    publisher_00 = Producer(exchange_name=exchange_00, connection=connection)
    # Special publisher using the default exchange that emits messages direct to queue name that is equal to the routing_key
 
     # Advanced message

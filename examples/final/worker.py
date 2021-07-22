@@ -1,9 +1,11 @@
 import sys
 import os
 import time
+import json
 from pathlib import Path
 current_path = Path(os.getcwd())
 sys.path.insert(1, str(current_path.parent) + '/shared')
+from Producer import Producer
 from Message import Message
 from Queue import Queue
 from Exchange import Exchange
@@ -27,16 +29,31 @@ def program(*args, **kwargs):
         connectToRabbitMQ: :  ConnectionParameters -> RabbitMQConnection
     '''
     connection = RabbitMQ.connectToRabbitMQ(logger=logger)
-    # Create exchange, routing keys & queues
-    # Create a queue with an identifier -> my_queue
+    # Create exchange & queues
+    exchange_00 = Exchange(name="ex0", type="direct", connection=connection)
     queue_00 = Queue(name=queueName, connection=connection)
+    queue_01 = Queue(name="qcoquer", connection=connection)
+    queue_00.bind(exchange=exchange_00, routing_key=queue_00.name)
+    queue_01.bind(exchange=exchange_00, routing_key=queue_01.name)
+
     # Create consumer
+    def onMessage(ch, method, properties, body):
+        # global logger
+        logger.info(body)
+        data = json.loads(body)
+        numbers = map(lambda x: int(x), data['value'].split(","))
+        result = Message(value=sum(numbers))
+        p = Producer(exchange_name=exchange_00,
+                     routing_key=queue_01.name, connection=connection, logger=logger)
+        p.publish(message=result.toJSON(), logger=logger)
+        # print(numbers)
+        ch.basic_ack(delivery_tag=method.delivery_tag)
     consumer_00 = Consumer(connection=connection)
-    consumer_00.consume(queue=queue_00)
+    consumer_00.consume(queue=queue_00, callback=onMessage)
     connection.close()
 
 
 if __name__ == '__main__':
-    logger = Logger.create(name="CONSUMER", filename="worker.log")
+    logger = Logger.create(name="WORKER", filename="./logs/worker.log")
     logger.info("Worker started successfully 🚀")
     program(logger=logger)
