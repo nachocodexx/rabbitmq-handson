@@ -26,6 +26,9 @@ docker network create --driver=bridge --subnet=10.0.0.0/23 mynet
 docker run --name rabbit-0 --hostname rabbit-0 -d -p 5672:5672 -p 8080:15672 --net mynet rabbitmq:3-management
 ```
 
+Go to <http://localhost:8080/>  -> RabbitMQ UI. you'll find a user interface(UI) to manage RabbitMQ. 
+
+
 ### Example 0: Hello word 
 This example show you how to produce and consume message using Python as a programming language. the example is summarized by the following diagram:  
 ![ex0](./images/ex0.png)
